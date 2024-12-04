@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const CategoriesMobile = () => {
   const categories = [
@@ -9,46 +10,55 @@ const CategoriesMobile = () => {
       id: 1,
       name: "Discounts",
       image: "https://www.svgrepo.com/show/227497/discount.svg",
+      slug: "discounts"
     },
     {
       id: 2,
-      name: "Vegetable",
+      name: "Vegetables",
       image: "https://www.svgrepo.com/show/395941/broccoli.svg",
+      slug: "vegetables"
     },
     {
       id: 3,
       name: "Fruits",
       image: "https://www.svgrepo.com/show/398404/strawberry.svg",
+      slug: "fruits"
     },
     {
       id: 4,
       name: "Bakery",
       image: "https://www.svgrepo.com/show/530223/bread.svg",
+      slug: "bakery"
     },
     {
       id: 5,
       name: "Water & Beverages",
       image: "https://www.svgrepo.com/show/286022/drink-soda.svg",
+      slug: "water-beverages"
     },
     {
       id: 6,
       name: "Snacks",
       image: "https://www.svgrepo.com/show/196465/chocolate-snack.svg",
+      slug: "snacks"
     },
     {
       id: 7,
       name: "Milk & Breakfast",
       image: "https://www.svgrepo.com/show/486303/milk.svg",
+      slug: "milk-breakfast"
     },
     {
       id: 8,
       name: "Staple Food",
       image: "https://www.svgrepo.com/show/267175/pasta.svg",
+      slug: "staple-food"
     },
     {
       id: 9,
       name: "Ice Cream",
       image: "https://www.svgrepo.com/show/501883/ice-cream.svg",
+      slug: "ice-cream"
     },
   ];
 
@@ -124,7 +134,11 @@ const CategoriesMobile = () => {
             }}
           >
             {categories.map((category) => (
-              <div key={category.id} className="flex-shrink-0 w-20 mt-2">
+              <Link 
+                href={`/category/${category.slug}`}
+                key={category.id} 
+                className="flex-shrink-0 w-20 mt-2"
+              >
                 <div className="flex flex-col items-center gap-2">
                   <div className="w-20 h-20 bg-[#eaeadef4] border border-[#064d4f89] rounded-full flex items-center justify-center p-4">
                     <img
@@ -137,7 +151,7 @@ const CategoriesMobile = () => {
                     {category.name}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </motion.div>
         </motion.div>

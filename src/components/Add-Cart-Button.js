@@ -1,6 +1,6 @@
 import styles from "../styles/Add-Cart-Button.css";
 
-const ComponentName = () => {
+const AddCartButton = () => {
   return (
     <div data-tooltip="" className="button1">
       <div className="button-wrapper1">
@@ -22,4 +22,4 @@ const ComponentName = () => {
   );
 };
 
-export default ComponentName;
+export default AddCartButton;

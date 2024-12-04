@@ -3,17 +3,17 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import AddCartButton from "@/components/Add-Cart-Button";
+import ProductCard from "@/components/Product-Card";
 const LastViewedProducts = () => {
   const [products] = useState([
-    {
-      id: 1,
-      name: "Milk",
-      image: "/images/products/milk.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 0,
-    },
+      {
+        id: 1,
+        name: "Milk",
+        image: "/images/products/milk.webp",
+        weight: "200 gm",
+        price: "17.29",
+        discount: 0,
+      },
     {
       id: 2,
       name: "Bread",
@@ -38,15 +38,19 @@ const LastViewedProducts = () => {
       price: "17.29",
       discount: 7,
     },
-    {
-      id: 5,
-      name: "Banana",
-      image: "/images/products/banana.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 0,
-    },
+    // {
+    //   id: 5,
+    //   name: "Banana",
+    //   image: "/images/products/banana.webp",
+    //   weight: "200 gm",
+    //   price: "17.29",
+    //   discount: 0,
+    // },
   ]);
+
+  // Skeleton ürün sayısını hesapla (toplam 5 olacak şekilde)
+  const skeletonCount = Math.max(0, 5 - products.length);
+  
   return (
     <div className="w-[94%] mx-auto mt-8 mb-16 ">
       <div className="flex items-center justify-between mb-4">
@@ -72,48 +76,26 @@ const LastViewedProducts = () => {
         }}
         className="product-swiper"
       >
-        {products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <div className="bg-white p-4 rounded-lg shadow-sm md:hover:shadow-2xl hover:shadow-lg hover:shadow-black transition-shadow duration-700 hover:cursor-pointer ">
-              <div className="relative h-32 w-full mb-3">
-                {product.discount > 0 && (
-                  <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-sm z-10">
-                    -{product.discount}%
-                  </span>
-                )}
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-contain"
-                />
+        {/* Skeleton kartlar */}
+        {[...Array(skeletonCount)].map((_, index) => (
+          <SwiperSlide key={`skeleton-${index}`}>
+            <div className="animate-pulse relative">
+              <div className="bg-[#064d4f63] rounded-lg h-36 mb-4 flex items-center justify-center">
+                <span className="text-[#064c4f] text-sm font-medium">Not viewed yet</span>
               </div>
-              <div className="text-md text-[#064c4f]">{product.name}</div>
-              <div className="text-sm text-[#c1c2c2]">{product.weight}</div>
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-2">
-                {product.discount > 0 ? (
-                  <div className="flex items-center gap-2 mb-2 md:mb-0">
-                    <span className="font-semibold text-[#064c4f] text-2xl">
-                      $
-                      {(
-                        parseFloat(product.price) *
-                        (1 - product.discount / 100)
-                      ).toFixed(2)}
-                    </span>
-                    <span className="text-sm text-gray-500 line-through">
-                      ${product.price}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="font-semibold text-[#064c4f] text-2xl mb-2 md:mb-0">
-                    ${product.price}
-                  </span>
-                )}
-                <div className="flex items-center gap-1">
-                  <AddCartButton />
-                </div>
+              <div className="space-y-3">
+                <div className="h-4 bg-[#064d4f63] rounded w-3/4"></div>
+                <div className="h-4 bg-[#064d4f63] rounded w-1/2"></div>
+                <div className="h-4 bg-[#064d4f63] rounded w-1/4"></div>
               </div>
             </div>
+          </SwiperSlide>
+        ))}
+        
+        {/* Sonra ürünler */}
+        {products.slice().reverse().map((product) => (
+          <SwiperSlide key={product.id}>
+            <ProductCard key={product.id} product={product} />
           </SwiperSlide>
         ))}
       </Swiper>

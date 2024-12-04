@@ -1,5 +1,5 @@
-import Categories from '@/components/Categories';
-import CategoriesMobile from '@/components/Categories-mobile';
+import Categories from '@/components/categories/Categories';
+import CategoriesMobile from '@/components/categories/Categories-mobile';
 
 const ResponsiveCategories = () => {
   return (
