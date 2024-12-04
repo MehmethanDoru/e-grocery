@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="space-y-4">
             <Image
-              src="/images/next.svg"
+              src="/images/logo.svg"
               alt="Gromuse Logo"
               width={120}
               height={30}
@@ -26,10 +26,24 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-300 hover:text-white">Home</Link></li>
-              <li><Link href="/products" className="text-gray-300 hover:text-white">Products</Link></li>
-              <li><Link href="/categories" className="text-gray-300 hover:text-white">Categories</Link></li>
-              <li><Link href="/about" className="text-gray-300 hover:text-white">About Us</Link></li>
+              <li>
+                <Link href="/" className="text-gray-300 hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-300 hover:text-white">
+                  About Us
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -39,7 +53,7 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-300">
               <li>Email: info@mehmethandoru.com</li>
               <li>Phone: +1 234 567 890</li>
-              <li>Address: 123 Grocery St, Food City</li>
+              <li>Address: 123 Melly St, Food City</li>
             </ul>
           </div>
 

@@ -67,7 +67,7 @@ const Categories = () => {
   };
 
   return (
-    <div className="relative max-w-6xl mx-auto px-4 py-8 mt-12">
+    <div className="relative max-w-7xl mx-auto px-4 py-8 mt-12">
       <div className="flex items-center justify-between">
         <button
           onClick={slideLeft}

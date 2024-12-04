@@ -40,7 +40,7 @@ const Navbar = () => {
           </svg>
         </button>
         <Image
-          src="/images/next.svg"
+          src="/images/logo.svg"
           alt="Gromuse Logo"
           width={100}
           height={24}
@@ -56,7 +56,7 @@ const Navbar = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search for Grocery, Snacks, Fruits"
+            placeholder="Search for Grocery, Snacks..."
             className="w-full px-4 py-2 rounded-full bg-white text-gray-800 focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
