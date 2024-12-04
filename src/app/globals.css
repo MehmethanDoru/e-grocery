@@ -27,16 +27,16 @@ body {
   background: #064c4f;
 }
 
-.rounded-edge-product {
+/* .rounded-edge-product {
   background: #ffffff;
   aspect-ratio: 2/4;
   height: 70%;
   clip-path: ellipse(100% 70% at 50% 0%);
-}
+} */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .rounded-edge-product {
     height: 40%;
     aspect-ratio: 3/4;
   }
-}
+} */

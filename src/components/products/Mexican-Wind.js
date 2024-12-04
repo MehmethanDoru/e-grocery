@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "@/components/Product-Card";
+import Link from "next/link";
 
 const SpecialProducts = () => {
   const [products] = useState([
@@ -51,8 +52,15 @@ const SpecialProducts = () => {
   return (
     <div className="w-[94%] mx-auto mt-8 mb-16 ">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-[#064c4f]">Mexican Wind <span className="text-3xl">🌮</span></h2>
-        <button className="text-[#064c4f] font-semibold">See more →</button>
+        <Link href="/mexican-wind" className="hover:opacity-80">
+          <h2 className="text-2xl font-bold text-[#064c4f]">Mexican Wind <span className="text-3xl">🌮</span></h2>
+        </Link>
+        <Link 
+          href="/mexican-wind" 
+          className="text-[#064c4f] font-semibold hover:opacity-80"
+        >
+          See more →
+        </Link>
       </div>
 
       <Swiper

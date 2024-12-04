@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ProductCard from "@/components/Product-Card";
+import Link from "next/link";
 
 const ProductsHome = () => {
   const products = [
@@ -53,10 +54,18 @@ const ProductsHome = () => {
   ];
 
   return (
-    <div className="w-[94%] mx-auto mt-8 mb-16 ">
+    <div className="w-[94%] mx-auto mt-8 mb-16">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold text-[#064c4f]">You might need</h2>
-        <button className="text-[#064c4f] font-semibold">See more →</button>
+        <Link href="/might-need">
+          <button className="text-[#064c4f] font-semibold"></button>
+        </Link>
+        <Link 
+          href="/might-need" 
+          className="text-[#064c4f] font-semibold hover:opacity-80"
+        >
+          See more →
+        </Link>
       </div>
 
       <Swiper

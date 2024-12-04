@@ -25,13 +25,27 @@ const CategoryPage = () => {
         discount: 10,
         category: "fruits"
       },
+      {
+        id: 2,
+        name: "Bread",
+        image: "/images/products/bread.webp",
+        weight: "1 adt",
+        price: "3.29",
+        discount: 3,
+        category: "bakery"
+      },
       // Add more mock products
     ];
 
-    // Filter products based on category
-    const filteredProducts = mockProducts.filter(
-      product => product.category === categoryName
-    );
+    // Filter products based on URL and category
+    const filteredProducts = mockProducts.filter(product => {
+      if (categoryName === 'discounts') {
+        return product.discount > 0; // Sadece indirimli ürünleri göster
+      }
+      // Diğer tüm kategorilerde sadece o kategoriye ait ürünleri göster
+      return product.category === categoryName;
+    });
+    
     setProducts(filteredProducts);
   }, [categoryName]);
 

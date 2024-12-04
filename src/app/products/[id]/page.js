@@ -78,15 +78,13 @@ const ProductDetail = () => {
 
           <div className="text-2xl font-bold text-[#064c4f]">
             {product.discount > 0 ? (
-              <>
+              <div className="flex items-center gap-2">
                 <span className="text-red-500">${(product.price * (1 - product.discount / 100)).toFixed(2)}</span>
-                <span className="ml-2 text-sm line-through text-gray-500">${product.price}</span>
-                <span className="ml-2 text-sm text-red-500">
-                  {product.discount}% OFF
-                </span>
-              </>
+                <span className="text-sm line-through text-gray-500">${product.price}</span>
+                <span className="text-sm text-red-500">{product.discount}% OFF</span>
+              </div>
             ) : (
-              `$${product.price}`
+              <span>${product.price}</span>
             )}
           </div>
 
