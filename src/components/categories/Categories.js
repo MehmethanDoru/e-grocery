@@ -1,71 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { categoryService } from "@/api/supabase/services/categoryService";
 
 const Categories = () => {
-  const categories = [
-    {
-      id: 1,
-      name: "Discounts",
-      image: "https://www.svgrepo.com/show/227497/discount.svg",
-      slug: "discounts"
-    },
-    {
-      id: 2, 
-      name: "Vegetables",
-      image: "https://www.svgrepo.com/show/395941/broccoli.svg",
-      slug: "vegetables"
-    },
-    {
-      id: 3,
-      name: "Fruits",
-      image: "https://www.svgrepo.com/show/398404/strawberry.svg", 
-      slug: "fruits"
-    },
-    {
-      id: 4,
-      name: "Bakery",
-      image: "https://www.svgrepo.com/show/530223/bread.svg",
-      slug: "bakery"
-    },
-    {
-      id: 5,
-      name: "Water & Beverages",
-      image: "https://www.svgrepo.com/show/286022/drink-soda.svg",
-      slug: "water-beverages"
-    },
-    {
-      id: 6,
-      name: "Snacks",
-      image: "https://www.svgrepo.com/show/196465/chocolate-snack.svg",
-      slug: "snacks"
-    },
-    {
-      id: 7,
-      name: "Milk & Breakfast",
-      image: "https://www.svgrepo.com/show/486303/milk.svg",
-      slug: "milk-breakfast"
-    },
-    {
-      id: 8,
-      name: "Staple Food",
-      image: "https://www.svgrepo.com/show/267175/pasta.svg",
-      slug: "staple-food"
-    },
-    {
-      id: 9,
-      name: "Ice Cream",
-      image: "https://www.svgrepo.com/show/501883/ice-cream.svg",
-      slug: "ice-cream"
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    try {
+      const data = await categoryService.getAllCategories();
+      if (data && data.length > 0) {
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
     }
-];
+  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slideLeft = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? categories.length - 3 : prevIndex - 1
     );
   };
@@ -103,13 +64,13 @@ const Categories = () => {
           <motion.div
             className="flex gap-4"
             animate={{
-              x: `-${currentIndex * 33.33}%`
+              x: `-${currentIndex * 33.33}%`,
             }}
             transition={{ duration: 0.5 }}
           >
             {categories.map((category) => (
-              <Link 
-                href={`/category/${category.slug}`} 
+              <Link
+                href={`/category/${category.slug}`}
                 key={category.id}
                 className="flex-shrink-0 w-1/3 p-4 cursor-pointer "
               >
@@ -122,7 +83,9 @@ const Categories = () => {
                         className="object-contain"
                       />
                     </div>
-                    <h3 className="text-lg text-[#064c4f] font-bold tracking-wide">{category.name}</h3>
+                    <h3 className="text-lg text-[#064c4f] font-bold tracking-wide">
+                      {category.category_name}
+                    </h3>
                   </div>
                 </div>
               </Link>
@@ -155,4 +118,3 @@ const Categories = () => {
 };
 
 export default Categories;
-

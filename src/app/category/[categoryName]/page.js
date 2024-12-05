@@ -6,6 +6,8 @@ import Image from 'next/image';
 import AddCartButton from "@/components/Add-Cart-Button";
 import ResponsiveCategories from "@/app/responsive-components/responsiveCategories";
 import ProductCard from "@/components/Product-Card";
+  
+
 
 const CategoryPage = () => {
   const params = useParams();

@@ -1,66 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-
+import { categoryService } from "@/api/supabase/services/categoryService";
 const CategoriesMobile = () => {
-  const categories = [
-    {
-      id: 1,
-      name: "Discounts",
-      image: "https://www.svgrepo.com/show/227497/discount.svg",
-      slug: "discounts"
-    },
-    {
-      id: 2,
-      name: "Vegetables",
-      image: "https://www.svgrepo.com/show/395941/broccoli.svg",
-      slug: "vegetables"
-    },
-    {
-      id: 3,
-      name: "Fruits",
-      image: "https://www.svgrepo.com/show/398404/strawberry.svg",
-      slug: "fruits"
-    },
-    {
-      id: 4,
-      name: "Bakery",
-      image: "https://www.svgrepo.com/show/530223/bread.svg",
-      slug: "bakery"
-    },
-    {
-      id: 5,
-      name: "Water & Beverages",
-      image: "https://www.svgrepo.com/show/286022/drink-soda.svg",
-      slug: "water-beverages"
-    },
-    {
-      id: 6,
-      name: "Snacks",
-      image: "https://www.svgrepo.com/show/196465/chocolate-snack.svg",
-      slug: "snacks"
-    },
-    {
-      id: 7,
-      name: "Milk & Breakfast",
-      image: "https://www.svgrepo.com/show/486303/milk.svg",
-      slug: "milk-breakfast"
-    },
-    {
-      id: 8,
-      name: "Staple Food",
-      image: "https://www.svgrepo.com/show/267175/pasta.svg",
-      slug: "staple-food"
-    },
-    {
-      id: 9,
-      name: "Ice Cream",
-      image: "https://www.svgrepo.com/show/501883/ice-cream.svg",
-      slug: "ice-cream"
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    try {
+      const data = await categoryService.getAllCategories();
+      if (data && data.length > 0) {
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -143,12 +103,12 @@ const CategoriesMobile = () => {
                   <div className="w-20 h-20 bg-[#eaeadef4] border border-[#064d4f89] rounded-full flex items-center justify-center p-4">
                     <img
                       src={category.image}
-                      alt={category.name}
+                      alt={category.category_name}
                       className="w-8 h-8 object-contain"
                     />
                   </div>
                   <p className="text-xs text-center font-medium text-[#064c4f]">
-                    {category.name}
+                    {category.category_name}
                   </p>
                 </div>
               </Link>
