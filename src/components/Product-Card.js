@@ -4,7 +4,7 @@ import Image from 'next/image';
 import AddCartButton from "@/components/Add-Cart-Button";
 import Link from 'next/link';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, slug }) => {
   return (
     <Link href={`/products/${product.id}`}>
       <div 
@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
             </span>
           )}
           <Image
-            src={product.image}
+            src={`/images/products/${slug}/${product.image}.webp`}
             alt={product.name}
             fill
             className="object-contain"
