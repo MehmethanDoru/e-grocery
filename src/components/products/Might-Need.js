@@ -56,7 +56,7 @@ const ProductsHome = () => {
   return (
     <div className="w-[94%] mx-auto mt-8 mb-16">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-[#064c4f]">You might need</h2>
+        <h2 className="text-2xl font-bold text-[#064c4f]">You might need <span className="text-[1.5rem]">🛒</span></h2>
         <Link href="/might-need">
           <button className="text-[#064c4f] font-semibold"></button>
         </Link>
