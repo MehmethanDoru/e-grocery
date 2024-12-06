@@ -20,5 +20,9 @@ export const productService = {
 
   async fetchGoodWhileTVProducts() {
     return await productsAccess.getGoodWhileTVProducts();
+  },
+
+  async searchProducts(searchQuery) {
+    return await productsAccess.searchProducts(searchQuery);
   }
 }   

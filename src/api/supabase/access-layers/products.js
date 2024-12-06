@@ -69,5 +69,19 @@ export const productsAccess = {
     }
 
     return data;
+  },
+
+  async searchProducts(searchQuery) {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .ilike("name", `%${searchQuery}%`);
+
+    if (error) {
+      console.error("Error searching products:", error);
+      return [];
+    }
+
+    return data;
   }     
 };

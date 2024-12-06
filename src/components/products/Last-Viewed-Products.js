@@ -13,7 +13,7 @@ const LastViewedProducts = () => {
     return [];
   });
 
-  // Calculate skeleton count (total should be 5)
+  // Skeleton ürün sayısını hesapla (toplam 5 olacak şekilde)
   const skeletonCount = Math.max(0, 5 - products.length);
   
   return (

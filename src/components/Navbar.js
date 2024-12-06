@@ -65,7 +65,7 @@ const Navbar = () => {
             onBlur={() => setIsSearchFocused(false)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleSearch();
+                window.location.href = `/search?q=${searchTerm}`;
               }
             }}
           />
