@@ -20,5 +20,15 @@ export const categoriesAccess = {
     
     if (error) throw error
     return data
-  }
+  },
+
+  async getById(id) {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('slug')
+      .eq('id', id)
+    
+    if (error) throw error
+    return data
+  } 
 }

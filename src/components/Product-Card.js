@@ -17,7 +17,7 @@ const ProductCard = ({ product, slug }) => {
             </span>
           )}
           <Image
-            src={`/images/products/${slug}/${product.image}.webp`}
+            src={`/images/products/${product.image}.webp`}
             alt={product.name}
             fill
             className="object-contain"

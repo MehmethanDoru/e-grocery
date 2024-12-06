@@ -1,57 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ProductCard from "@/components/Product-Card";
 import Link from "next/link";
+import { productService } from "@/api/supabase/services/productService";
 
 const ProductsHome = () => {
-  const products = [
-    {
-      id: 1,
-      name: "Strawberry",
-      image: "/images/products/strawberry.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 10,
-    },
-    {
-      id: 2,
-      name: "Sunflower Oil",
-      image: "/images/products/oil.webp",
-      weight: "1L",
-      price: "12.29",
-      discount: 0,
-    },
-    {
-      id: 3,
-      name: "Fresh Tomatoes",
-      image: "/images/products/Tomato.webp",
-      weight: "500 gm",
-      price: "15.99",
-      discount: 5,
-    },
-    {
-      id: 4,
-      name: "CocaCola",
-      image: "/images/products/coke.webp",
-      weight: "2.5L",
-      price: "22.99",
-      discount: 10,
-    },
-    {
-      id: 5,
-      name: "Eti Karam",
-      image: "/images/products/karam.webp",
-      weight: "1 adt",
-      price: "3.99",
-      discount: 0,
-    }
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await productService.fetchMightNeedProducts();
+      setProducts(data.sort(() => Math.random() - 0.5).slice(0, 5));
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className="w-[94%] mx-auto mt-8 mb-16">

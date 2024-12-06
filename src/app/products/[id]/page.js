@@ -1,46 +1,53 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import ProductDetailComponent from '@/components/product-detail/ProductDetail';
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import ProductDetailComponent from "@/components/product-detail/ProductDetail";
+import { productService } from "@/api/supabase/services/productService";
+import { categoryService } from "@/api/supabase/services/categoryService";
+import Loader from "@/components/Loader";
+
 const ProductDetail = () => {
   const params = useParams();
   const { id } = params;
   const [product, setProduct] = useState(null);
+  const [category, setCategory] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Mock product data - in real app would fetch from API
-    const mockProduct = {
-      id: parseInt(id),
-      name: "Strawberry",
-      image: "/images/products/strawberry.webp", 
-      weight: "1 kg",
-      price: "29.12",
-      discount: 8,
-      description: "Organic whole wheat flour perfect for baking bread, muffins and other baked goods.",
-      rating: 4.2,
-      reviews: 17
+    const fetchData = async () => {
+      setIsLoading(true);
+      const productData = await productService.fetchProductById(id);
+      if (productData && productData[0]) {
+        setProduct(productData[0]);
+        const categoryData = await categoryService.getCategoryById(
+          productData[0].categoryId
+        );
+        if (categoryData && categoryData[0]) {
+          setCategory(categoryData[0]);
+        }
+      }
+      setIsLoading(false);
     };
 
-    setProduct(mockProduct);
+    fetchData();
   }, [id]);
 
-  const increaseQuantity = () => setQuantity(prev => prev + 1);
-  const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
+  const increaseQuantity = () => setQuantity((prev) => prev + 1);
+  const decreaseQuantity = () =>
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  if (!product) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#064c4f]"></div>
-      </div>
-    );
+  
+  if (isLoading || !product || !category) {
+    return <Loader />;
   }
 
   return (
-    <ProductDetailComponent 
+    <ProductDetailComponent
       product={product}
       quantity={quantity}
+      category={category}
       increaseQuantity={increaseQuantity}
       decreaseQuantity={decreaseQuantity}
     />

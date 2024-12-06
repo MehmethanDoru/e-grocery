@@ -1,19 +1,21 @@
 import Image from 'next/image';
 import ProductRating from './ProductRating';
 
-const ProductDetailComponent = ({ product, quantity, increaseQuantity, decreaseQuantity }) => {
+const ProductDetailComponent = ({ product, quantity, category, increaseQuantity, decreaseQuantity }) => {
   return (
     <div className="w-[94%] mx-auto py-8 mb-40">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Product Image */}
         <div className="relative h-[400px] overflow-hidden md:border-2 md:border-[#064d4f] border-solid md:shadow-lg p-4 md:bg-[#fffefec2] md:w-5/6 mt-[-4%] md:mt-0 ml-[2%] md:ml-auto md:mr-auto">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-contain p-0"
-          />
+          {category && product && (
+            <Image
+              src={`/images/products/${product.image}.webp`}
+              alt={product.name}
+              fill
+              className="object-contain p-0"
+            />
+          )}
         </div>
 
         {/* Product Details */}

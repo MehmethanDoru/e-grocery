@@ -17,5 +17,9 @@ export const categoryService = {
       console.error('Error fetching category:', error)
       throw error
     }
-  }
+  },
+
+  async getCategoryById(id) {
+    return await categoriesAccess.getById(id)
+  }   
 }

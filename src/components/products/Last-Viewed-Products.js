@@ -1,52 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "@/components/Product-Card";
 const LastViewedProducts = () => {
-  const [products] = useState([
-      {
-        id: 1,
-        name: "Milk",
-        image: "/images/products/milk.webp",
-        weight: "200 gm",
-        price: "17.29",
-        discount: 0,
-      },
-    {
-      id: 2,
-      name: "Bread",
-      image: "/images/products/bread.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 0,
-    },
-    {
-      id: 3,
-      name: "Strawberry",
-      image: "/images/products/strawberry.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 10,
-    },
-    {
-      id: 4,
-      name: "Potato",
-      image: "/images/products/potato.webp",
-      weight: "200 gm",
-      price: "17.29",
-      discount: 7,
-    },
-    // {
-    //   id: 5,
-    //   name: "Banana",
-    //   image: "/images/products/banana.webp",
-    //   weight: "200 gm",
-    //   price: "17.29",
-    //   discount: 0,
-    // },
-  ]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Local storage'dan son görüntülenen ürünleri al
+    const lastViewed = JSON.parse(localStorage.getItem('lastViewedProducts') || '[]');
+    setProducts(lastViewed);
+  }, []); // Component mount olduğunda çalışır
 
   // Skeleton ürün sayısını hesapla (toplam 5 olacak şekilde)
   const skeletonCount = Math.max(0, 5 - products.length);
