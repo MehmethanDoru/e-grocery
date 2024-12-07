@@ -60,7 +60,7 @@ const ProductCard = ({ product, slug }) => {
             </span>
           )}
         </div>
-        <AddCartButton />
+        <AddCartButton product={product} />
       </div>
     </div>
   );

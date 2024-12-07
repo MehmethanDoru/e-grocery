@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -8,7 +8,24 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [cartCount, setCartCount] = useState(2);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      setCartCount(cart.length);
+    };
+
+    updateCartCount();
+
+    // Add an event listener to update the cart count when the cart changes
+    window.addEventListener('storage', updateCartCount);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -16,6 +33,10 @@ const Navbar = () => {
 
   const handleSearch = () => {
     console.log(searchTerm);
+  };
+
+  const handleCartClick = () => {
+    window.location.href = '/cart';
   };
 
   return (
@@ -95,7 +116,7 @@ const Navbar = () => {
           isSearchFocused ? "md:flex hidden" : "flex"
         }`}
       >
-        <div className="items-center text-white text-sm hidden md:flex">
+        <div className="items-center text-white text-sm hidden md:flex flash-icon">
           <svg
             viewBox="0 0 1024 1024"
             width="24"
@@ -122,7 +143,7 @@ const Navbar = () => {
           <span className="font-semibold ml-1 text-[#ffc107]">15 min!</span>
         </div>
         <div className="flex gap-4">
-          <button className="text-white relative">
+          <button className="text-white relative" onClick={handleCartClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

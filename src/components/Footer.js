@@ -60,13 +60,13 @@ const Footer = () => {
           {/* Newsletter */}
           <div>
             <h3 className="font-semibold mb-4">Newsletter</h3>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-3 py-2 rounded-lg bg-white/10 text-white placeholder:text-gray-300 focus:outline-none"
+                className="px-3 py-2 rounded-lg bg-white/10 text-white placeholder:text-gray-300 focus:outline-none w-full"
               />
-              <button className="bg-white text-[#064c4f] px-4 py-2 rounded-lg hover:bg-gray-100">
+              <button className="bg-white text-[#064c4f] px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 font-medium w-fit self-start">
                 Subscribe
               </button>
             </div>

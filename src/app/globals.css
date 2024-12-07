@@ -26,3 +26,18 @@ body {
   clip-path: ellipse(85% 100% at 50% 0);
   background: #064c4f;
 }
+
+.flash-icon {
+  animation: flashAnimation 1.5s infinite;
+}
+
+@keyframes flashAnimation {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}

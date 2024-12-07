@@ -1,8 +1,33 @@
 import styles from "../styles/Add-Cart-Button.css";
 
-const AddCartButton = () => {
+const AddCartButton = ({ product }) => {
+  const addToCart = () => {
+    // Retrieve existing cart items from localStorage
+    const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Check if the product is already in the cart
+    const productIndex = existingCart.findIndex(item => item.id === product.id);
+    
+    if (productIndex > -1) {
+      // If product exists, update the quantity
+      existingCart[productIndex].quantity += 1;
+    } else {
+      // If product does not exist, add it to the cart with all details
+      existingCart.push({ 
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1 
+      });
+    }
+    
+    // Save updated cart back to localStorage
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+  };
+
   return (
-    <div data-tooltip="" className="button1">
+    <div data-tooltip="" className="button1" onClick={addToCart}>
       <div className="button-wrapper1">
         <div className="text1">Add</div>
         <span className="icon1">

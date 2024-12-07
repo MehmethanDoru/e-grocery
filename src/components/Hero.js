@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -16,9 +17,11 @@ const Hero = () => {
             <p className="text-gray-200 text-base md:text-lg mb-[2rem]">
               🌟 Get <span className="font-bold text-[#4ade80]">5% OFF</span> on organic produce and sustainably sourced groceries delivered right to your doorstep!
             </p>
-            <button className="bg-[#4ade80] hover:bg-[#22c55e] text-[#064c4f] font-bold px-[2rem] py-[0.75rem] rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
-              Start Shopping Now →
-            </button>
+            <Link href="/category/discounts" className="inline-block">
+              <button className="bg-[#4ade80] hover:bg-[#22c55e] text-[#064c4f] font-bold px-[2rem] py-[0.75rem] rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                Start Shopping Now →
+              </button>
+            </Link>
           </div>
 
           {/* Image */}
