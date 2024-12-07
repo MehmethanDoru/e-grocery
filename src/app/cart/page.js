@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import CartItems from '@/components/Cart-Items';
+import Loader from '@/components/Loader';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Load cart items from localStorage
     const items = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(items);
     calculateTotal(items);
+    setIsLoading(false);
   }, []);
 
   const calculateTotal = (items) => {
@@ -39,7 +42,9 @@ export default function Cart() {
     <div className="w-[95%] mx-auto px-4 py-4">
       <h1 className="text-3xl font-bold md:text-[#064c4f] text-[#fff] mb-8">Shopping Cart</h1>
       
-      {cartItems.length === 0 ? (
+      {isLoading ? (
+        <Loader />  
+      ) : cartItems.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-600">Your cart is empty</p>
         </div>
@@ -56,9 +61,11 @@ export default function Cart() {
               <span className="font-semibold text-[#064c4f] ">Total:</span>
               <span className="font-bold text-[#064c4f]">${total.toFixed(2)}</span>
             </div>
-            <button className="w-full mt-4 bg-[#064c4f] text-white py-3 rounded-lg hover:bg-[#053c3e] transition-colors">
-              To Checkout
-            </button>
+            <a href={`/checkout`}>
+              <button className="w-full mt-4 bg-[#064c4f] text-white py-3 rounded-lg hover:bg-[#053c3e] transition-colors">
+                To Checkout
+              </button>
+            </a>
           </div>
         </div>
       )}
