@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 const CartItems = ({ items, updateQuantity, removeFromCart }) => {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,16 @@ const CartItems = ({ items, updateQuantity, removeFromCart }) => {
   const confirmRemove = () => {
     removeFromCart(itemToRemove);
     setShowModal(false);
+    
+    window.dispatchEvent(new Event('itemRemoved'));
+    toast.success('Product removed from cart successfully!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   return (

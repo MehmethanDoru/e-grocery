@@ -13,17 +13,30 @@ const Navbar = () => {
   useEffect(() => {
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      // Count total unique items in cart
       setCartCount(cart.length);
     };
 
+    // Initial cart count
     updateCartCount();
 
-    // Add an event listener to update the cart count when the cart changes
-    window.addEventListener('storage', updateCartCount);
+    // Listen for cart updates from same window
+    window.addEventListener('cartUpdated', updateCartCount);
+    
+    // Listen for cart updates from other windows/tabs
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cart') {
+        updateCartCount();
+      }
+    });
 
-    // Clean up the event listener on component unmount
+    // Listen for item removal
+    window.addEventListener('itemRemoved', updateCartCount);
+
     return () => {
+      window.removeEventListener('cartUpdated', updateCartCount);
       window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('itemRemoved', updateCartCount);
     };
   }, []);
 

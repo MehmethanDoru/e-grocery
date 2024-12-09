@@ -1,19 +1,31 @@
 import Image from 'next/image';
 import ProductRating from './ProductRating';
+import { toast } from 'react-toastify';
+import AddCartButton from '@/components/Add-Cart-Button';
 
 const ProductDetailComponent = ({ product, quantity, category, increaseQuantity, decreaseQuantity }) => {
   return (
-    <div className="w-[94%] mx-auto py-8 mb-40">
+    <div className="w-[94%] mx-auto py-8 mb-0 md:mb-32">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Product Image */}
-        <div className="relative h-[400px] overflow-hidden md:border-2 md:border-[#064d4f] border-solid md:shadow-lg p-4 md:bg-[#fffefec2] md:w-5/6 mt-[-4%] md:mt-0 ml-[2%] md:ml-auto md:mr-auto">
+        <div className="relative h-[400px] overflow-hidden 
+          md:h-[400px] md:border md:border-[#064d4f]/20 md:rounded-xl
+          md:bg-gradient-to-br md:from-white md:to-[#eae8e8]
+          md:shadow-[0_0_15px_rgba(6,77,79,0.1)]
+          md:hover:shadow-[0_0_25px_rgba(6,77,79,0.2)]
+          md:transition-all md:duration-300
+          md:backdrop-blur-sm
+          md:w-5/6 mt-[-4%] md:mt-0 ml-[2%] md:mx-auto
+          group">
           {category && product && (
             <Image
               src={`/images/products/${product.image}.webp`}
               alt={product.name}
               fill
-              className="object-contain p-0"
+              className="object-contain p-0
+                md:group-hover:scale-110
+                md:transition-transform md:duration-300"
             />
           )}
         </div>
@@ -63,9 +75,10 @@ const ProductDetailComponent = ({ product, quantity, category, increaseQuantity,
             </div>
           </div>
 
-          <button className="w-full md:w-auto px-6 py-3 bg-[#064c4f] text-white rounded-lg hover:bg-[#053c3e] transition-colors">
-            Add {quantity} to Cart
-          </button>
+          <AddCartButton 
+            product={product}
+            quantity={quantity}
+          />
         </div>
       </div>
     </div>

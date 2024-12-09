@@ -1,6 +1,7 @@
 import styles from "../styles/Add-Cart-Button.css";
+import { toast } from 'react-toastify';
 
-const AddCartButton = ({ product }) => {
+const AddCartButton = ({ product, quantity = 1, customClassName }) => {
   const addToCart = () => {
     // Retrieve existing cart items from localStorage
     const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -9,23 +10,49 @@ const AddCartButton = ({ product }) => {
     const productIndex = existingCart.findIndex(item => item.id === product.id);
     
     if (productIndex > -1) {
-      // If product exists, update the quantity
-      existingCart[productIndex].quantity += 1;
+      // If product exists, add the selected quantity
+      existingCart[productIndex].quantity += quantity;
     } else {
-      // If product does not exist, add it to the cart with all details
+      // If product does not exist, add it with the selected quantity
       existingCart.push({ 
         id: product.id,
         name: product.name,
         price: product.price,
         image: product.image,
-        quantity: 1 
+        quantity: quantity 
       });
     }
     
     // Save updated cart back to localStorage
     localStorage.setItem('cart', JSON.stringify(existingCart));
+
+    // Show success toast notification
+    toast.success(`${quantity} product${quantity > 1 ? 's' : ''} added to cart!`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+
+    // Dispatch custom event for cart update
+    window.dispatchEvent(new Event('cartUpdated'));
   };
 
+  // Use custom class if provided, otherwise use default button styles
+  if (customClassName) {
+    return (
+      <button 
+        onClick={addToCart}
+        className={customClassName}
+      >
+        Add {quantity} to Cart
+      </button>
+    );
+  }
+
+  // Default button style
   return (
     <div data-tooltip="" className="button1" onClick={addToCart}>
       <div className="button-wrapper1">

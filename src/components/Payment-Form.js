@@ -13,10 +13,15 @@ export default function PaymentForm({ cardDetails, handleInputChange, handleCard
             }
         }
 
-        // Sipariş takibi için localStorage'ı sıfırla
+        // Reset localStorage for order tracking
         localStorage.setItem('remainingTime', '15');
         localStorage.setItem('orderStatus', 'Preparing');
+        localStorage.setItem('trackingHidden', 'false');
         localStorage.removeItem('cart');
+
+        // Dispatch a custom event to notify navbar about the cart update
+        const updateNavbarEvent = new CustomEvent('cartUpdated');
+        window.dispatchEvent(updateNavbarEvent);
 
         setShowAlert(true);
     };
@@ -31,7 +36,7 @@ export default function PaymentForm({ cardDetails, handleInputChange, handleCard
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Payment Successful!</h3>
+                        <h3 className="text-xl font-bold mb-4 text-[#064c4f]">Payment Successful!</h3>
                         <p className="text-gray-600 mb-6">You can track your order from the home page.</p>
                         <Link href="/" className="inline-flex items-center justify-center gap-2 bg-[#064c4f] text-white px-6 py-3 rounded-xl hover:bg-[#0a5c60] transition-colors">
                             <svg
