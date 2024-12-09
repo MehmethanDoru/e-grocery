@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LocationDisplay from "./location/LocationDisplay";
+import LocationDisplay from "../location/LocationDisplay";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

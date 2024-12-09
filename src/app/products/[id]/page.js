@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import ProductDetailComponent from "@/components/product-detail/ProductDetail";
 import { productService } from "@/api/supabase/services/productService";
 import { categoryService } from "@/api/supabase/services/categoryService";
-import Loader from "@/components/Loader";
+import Loader from "@/components/common/Loader";
 
 const ProductDetail = () => {
   const params = useParams();

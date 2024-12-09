@@ -77,8 +77,8 @@ const LocationDisplay = () => {
         {loading ? "Getting location..." : location}
         <svg
           viewBox="0 0 16 16"
-          width="16"
-          className="w-5 h-5 md:w-4 md:h-4"
+          width='16'
+          className="w-4 h-4 ml-1 md:w-3 md:h-3"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >

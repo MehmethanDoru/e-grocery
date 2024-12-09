@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ProductCard from "@/components/Product-Card";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/common/Pagination";
 import { productService } from "@/api/supabase/services/productService";
 
 const GoodWhileTV = () => {

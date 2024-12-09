@@ -25,7 +25,7 @@ const Footer = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
-      });
+      }); 
 
       const data = await response.json();
       console.log('Server response:', { status: response.status, data });

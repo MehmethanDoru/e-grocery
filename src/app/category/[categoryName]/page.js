@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { categoryService } from "@/api/supabase/services/categoryService";
 import { productService } from "@/api/supabase/services/productService";
 import ProductCard from "@/components/Product-Card";
-import ResponsiveCategories from "@/app/responsive-components/responsiveCategories";
-import Loader from "@/components/Loader";
-import Pagination from "@/components/Pagination";
+import ResponsiveCategories from "@/components/responsive-components/responsiveCategories";
+import Loader from "@/components/common/Loader";
+import Pagination from "@/components/common/Pagination";
 
 const CategoryPage = () => {
   const { categoryName: slug } = useParams();
