@@ -21,7 +21,7 @@ export default function Home() {
       <Hero />
       <ResponsiveCategories />
       {showTracking && (
-        <div className="mt-8 mx-auto w-[94%] order-tracking-container">
+        <div className="mt-2 mx-auto w-[94%] order-tracking-container">
           <h2 className="text-2xl font-bold mb-4 text-[#064c4f]">
             Order Tracking
           </h2>

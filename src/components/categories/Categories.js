@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { categoryService } from "@/api/supabase/services/categoryService";
+import LocationDisplay from "../location/LocationDisplay";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
