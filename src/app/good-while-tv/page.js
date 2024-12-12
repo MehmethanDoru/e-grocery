@@ -8,29 +8,27 @@ import { productService } from "@/api/supabase/services/productService";
 const GoodWhileTV = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(10); // Varsayılan değer
+  const [productsPerPage, setProductsPerPage] = useState(10);
 
   useEffect(() => {
-    // Window boyutuna göre ürün sayısını ayarla
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setProductsPerPage(6);
-      } else if (width < 768) {
-        setProductsPerPage(8);
-      } else {
-        setProductsPerPage(10);
-      }
-    };
+    // Window nesnesinin varlığını kontrol et
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        const width = window.innerWidth;
+        if (width < 640) {
+          setProductsPerPage(6);
+        } else if (width < 768) {
+          setProductsPerPage(8);
+        } else {
+          setProductsPerPage(10);
+        }
+      };
 
-    // İlk yükleme için çalıştır
-    handleResize();
+      handleResize();
+      window.addEventListener('resize', handleResize);
 
-    // Pencere boyutu değiştiğinde güncelle
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
   useEffect(() => {
