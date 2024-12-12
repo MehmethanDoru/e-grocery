@@ -7,9 +7,31 @@ import { productService } from "@/api/supabase/services/productService";
 
 const MightNeed = () => {
   const [products, setProducts] = useState([]);
-  // Add pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = window.innerWidth < 640 ? 6 : window.innerWidth < 768 ? 8 : 10; // Responsive products per page
+  const [productsPerPage, setProductsPerPage] = useState(10); // Default değer
+
+  useEffect(() => {
+    // Ekran genişliğine göre ürün sayısını ayarla
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setProductsPerPage(6);
+      } else if (width < 768) {
+        setProductsPerPage(8);
+      } else {
+        setProductsPerPage(10);
+      }
+    };
+
+    // İlk yüklenmede çalıştır
+    handleResize();
+
+    // Ekran boyutu değiştiğinde güncelle
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {

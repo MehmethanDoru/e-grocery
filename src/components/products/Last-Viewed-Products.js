@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "@/components/Product-Card";
 const LastViewedProducts = () => {
-  const [products] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedProducts = localStorage.getItem('viewedProducts');
-      return savedProducts ? JSON.parse(savedProducts) : [];
+  const [products, setProducts] = useState([]);
+
+  // useEffect kullanarak client-side'da localStorage'ı kontrol et
+  useEffect(() => {
+    const savedProducts = localStorage.getItem('viewedProducts');
+    if (savedProducts) {
+      setProducts(JSON.parse(savedProducts));
     }
-    return [];
-  });
+  }, []);
 
   // Skeleton ürün sayısını hesapla (toplam 5 olacak şekilde)
   const skeletonCount = Math.max(0, 5 - products.length);

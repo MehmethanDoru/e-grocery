@@ -7,9 +7,31 @@ import { productService } from "@/api/supabase/services/productService";
 
 const GoodWhileTV = () => {
   const [products, setProducts] = useState([]);
-  // Add new state variables
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = window.innerWidth < 640 ? 6 : window.innerWidth < 768 ? 8 : 10; // Responsive products per page
+  const [productsPerPage, setProductsPerPage] = useState(10); // Varsayılan değer
+
+  useEffect(() => {
+    // Window boyutuna göre ürün sayısını ayarla
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setProductsPerPage(6);
+      } else if (width < 768) {
+        setProductsPerPage(8);
+      } else {
+        setProductsPerPage(10);
+      }
+    };
+
+    // İlk yükleme için çalıştır
+    handleResize();
+
+    // Pencere boyutu değiştiğinde güncelle
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,7 +42,6 @@ const GoodWhileTV = () => {
     fetchProducts();
   }, []);
 
-  // Add pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -39,7 +60,6 @@ const GoodWhileTV = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      {/* Add Pagination component */}
       {products.length > productsPerPage && (
         <Pagination 
           currentPage={currentPage}

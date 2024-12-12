@@ -15,7 +15,18 @@ const CategoryPage = () => {
   const [showNoProducts, setShowNoProducts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const productsPerPage = window.innerWidth >= 1024 ? 12 : window.innerWidth >= 768 ? 9 : 6;
+  const [productsPerPage, setProductsPerPage] = useState(6);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setProductsPerPage(width >= 1024 ? 12 : width >= 768 ? 9 : 6);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,7 +62,7 @@ const CategoryPage = () => {
       }
     };
     fetchProducts();
-  }, [slug]);
+  }, [slug, productsPerPage]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
