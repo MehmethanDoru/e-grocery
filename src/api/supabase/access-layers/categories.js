@@ -25,7 +25,7 @@ export const categoriesAccess = {
   async getById(id) {
     const { data, error } = await supabase
       .from('categories')
-      .select('slug')
+      .select('*')
       .eq('id', id)
     
     if (error) throw error

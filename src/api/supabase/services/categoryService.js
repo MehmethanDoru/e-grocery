@@ -14,12 +14,19 @@ export const categoryService = {
     try {
       return await categoriesAccess.getBySlug(slug)
     } catch (error) {
-      console.error('Error fetching category:', error)
+      console.log('Error fetching category:', error)
       throw error
     }
   },
 
-  async getCategoryById(id) {
-    return await categoriesAccess.getById(id)
-  }   
+    async getCategoryById(id) {
+      try {
+        const data = await categoriesAccess.getById(id);
+        return data;
+      } catch (error) {
+        console.error(`Error fetching category with id ${id}:`, error);
+        return null;
+      }
+    }
+  
 }

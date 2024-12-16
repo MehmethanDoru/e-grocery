@@ -47,7 +47,7 @@ const AddCartButton = ({ product, quantity = 1, customClassName }) => {
         onClick={addToCart}
         className={customClassName}
       >
-        Add {quantity} to Cart
+        Add <span className="text-[#ffc107]">{quantity}</span> to Cart
       </button>
     );
   }

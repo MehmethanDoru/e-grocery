@@ -8,7 +8,7 @@ import 'swiper/css/pagination';
 import ProductCard from "@/components/Product-Card";
 import Link from "next/link";
 import { productService } from "@/api/supabase/services/productService";
-
+import SkeletonCard from "@/components/common/Skeleton-Card";
 const ProductsHome = () => {
   const [products, setProducts] = useState([]);
 
@@ -20,6 +20,8 @@ const ProductsHome = () => {
 
     fetchProducts();
   }, []);
+
+  const skeletonCount = Math.max(0, 5 - products.length);
 
   return (
     <div className="w-[94%] mx-auto mt-8 mb-16">
@@ -55,6 +57,13 @@ const ProductsHome = () => {
         }}
         className="product-swiper"
       >
+        
+        {[...Array(skeletonCount)].map((_, index) => (
+          <SwiperSlide key={`skeleton-${index}`}>
+            <SkeletonCard message="" />
+          </SwiperSlide>
+        ))}
+
         {products.map((product) => (
           <SwiperSlide key={product.id}>
            <ProductCard key={product.id} product={product} />

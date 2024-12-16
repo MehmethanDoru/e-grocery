@@ -58,3 +58,30 @@ body {
 .transform-style-3d {
     transform-style: preserve-3d;
 }
+
+.toast-container {
+  z-index: 999999898;
+}
+
+.swiper-modal {
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.swiper-slide {
+  height: auto !important;
+  z-index: 1;
+}
+
+.swiper-container {
+  z-index: 1;
+}
+
+.product-swiper {
+  z-index: 1;
+}

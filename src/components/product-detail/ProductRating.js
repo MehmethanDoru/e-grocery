@@ -15,7 +15,7 @@ const ProductRating = ({ rating, reviews }) => {
             </svg>
           ))}
         </div>
-        <span className="text-sm text-gray-600">({reviews} reviews)</span>
+        <span className="text-sm md:text-base text-gray-600"><span className="text-gray-400">•</span> {reviews}  reviews</span>
       </div>
     );
   };
