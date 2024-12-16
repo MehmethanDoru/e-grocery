@@ -1,24 +1,53 @@
 import { supabase } from "@/config/supabase";
 
 export const ratingsAccess = {
-  async updateProductRating(productId, newRating, currentRating, currentReviews) {
-    const totalRatingPoints = (currentRating * currentReviews) + newRating;
-    const newReviewCount = currentReviews + 1;
-    const averageRating = totalRatingPoints / newReviewCount;
+  async updateProductRating(productId, newRating) {
+    try {
+      // Önce mevcut ürün verilerini çekelim
+      const { data: currentProduct, error: fetchError } = await supabase
+        .from("products")
+        .select("rating, reviews")
+        .eq("id", productId)
+        .single();
 
-    const { data, error } = await supabase
-      .from("products")
-      .update({
-        rating: averageRating.toFixed(1),
-        reviews: newReviewCount
-      })
-      .eq("id", productId);
+      if (fetchError) {
+        console.error("Ürün verileri çekilemedi:", fetchError);
+        throw new Error("Ürün verileri çekilemedi");
+      }
 
-    if (error) {
-      console.error("error Update Product Rating", error);
+      // Yeni değerleri hesaplayalım
+      const currentRating = currentProduct.rating || 0;
+      const currentReviews = currentProduct.reviews || 0;
+      
+      const totalRatingPoints = (Number(currentRating) * Number(currentReviews)) + Number(newRating);
+      const newReviewCount = Number(currentReviews) + 1;
+      const averageRating = parseFloat((totalRatingPoints / newReviewCount).toFixed(1));
+
+      console.log('Hesaplanan değerler:', {
+        totalRatingPoints,
+        newReviewCount,
+        averageRating
+      });
+
+      // Şimdi güncelleme yapalım
+      const { data, error } = await supabase
+        .from("products")
+        .update({
+          rating: averageRating,
+          reviews: newReviewCount
+        })
+        .eq("id", productId)
+        .select();
+
+      if (error) {
+        console.error("Rating güncelleme detaylı hata:", error);
+        throw new Error("Derecelendirme güncellenemedi");
+      }
+
+      return data[0];
+    } catch (error) {
+      console.error("Tam hata detayı:", error);
       return null;
     }
-
-    return data;
   }
 }; 

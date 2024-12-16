@@ -3,7 +3,13 @@ import ProductRating from "./ProductRating";
 import { toast } from "react-toastify";
 import AddCartButton from "@/components/Add-Cart-Button";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 const ProductDetailComponent = ({
   product,
@@ -14,6 +20,34 @@ const ProductDetailComponent = ({
 }) => {
   const [productRating, setProductRating] = useState(product.rating);
   const [productReviews, setProductReviews] = useState(product.reviews);
+
+  useEffect(() => {
+    setProductRating(product.rating);
+    setProductReviews(product.reviews);
+  }, [product]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('product_rating_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'products',
+          filter: `id=eq.${product.id}`
+        },
+        (payload) => {
+          setProductRating(payload.new.rating);
+          setProductReviews(payload.new.reviews);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [product.id]);
 
   const handleRatingUpdate = (newRating, newReviews) => {
     setProductRating(newRating);

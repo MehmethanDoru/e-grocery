@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ratingService } from '@/api/supabase/services/ratingService';
 import { toast } from 'react-toastify';
+import { supabase } from '@/config/supabase';
 
 const StarRating = ({ rating, interactive = false, size = 5, onHover, onClick }) => {
   return (
@@ -92,30 +93,45 @@ const ProductRating = ({ rating, reviews, productId, onRatingUpdate }) => {
 
   const handleRatingSubmit = async () => {
     if (selectedRating === 0) {
-      toast.error('Please select a star value');
-      return;
-    }
-
-    if (typeof onRatingUpdate !== 'function') {
-      console.error('onRatingUpdate prop is not a function');
-      toast.error('An error occurred. Please refresh the page and try again.');
+      toast.error('Lütfen bir yıldız değeri seçin');
       return;
     }
 
     setIsLoading(true);
     try {
-      await ratingService.updateProductRating(productId, selectedRating, rating, reviews);
-      
-      const newReviews = reviews + 1;
-      const newRating = (((rating * reviews) + selectedRating) / newReviews).toFixed(1);
-      
-      onRatingUpdate(newRating, newReviews);
+      // Önce mevcut ürün verilerini veritabanından çekelim
+      const { data: currentProduct, error: fetchError } = await supabase
+        .from("products")
+        .select("rating, reviews")
+        .eq("id", productId)
+        .single();
+
+      if (fetchError) {
+        throw new Error('Ürün bilgileri alınamadı');
+      }
+      // Güncel verilerle rating güncelleme işlemini yapalım
+      const result = await ratingService.updateProductRating(
+        productId,
+        selectedRating,
+        currentProduct.rating,
+        currentProduct.reviews
+      );
+
+      if (!result) {
+        throw new Error('Derecelendirme güncellenemedi');
+      }
+
+      // Modal'ı kapatalım ve state'i güncelleyelim
       setShowRatingModal(false);
       setSelectedRating(0);
-      toast.success('Your rating has been successfully saved!');
+      
+      // Parent component'i güncel değerlerle bilgilendirelim
+      onRatingUpdate(result.rating, result.reviews);
+      
+      toast.success('Değerlendirmeniz başarıyla kaydedildi!');
     } catch (error) {
-      console.error('Error updating rating:', error);
-      toast.error('An error occurred while saving the rating. Please try again.');
+      console.error('Rating güncelleme hatası:', error);
+      toast.error('Değerlendirme kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }

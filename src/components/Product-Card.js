@@ -6,14 +6,31 @@ import { useState, useEffect } from 'react';
 import ProductDetailComponent from './product-detail/ProductDetail';
 import Modal from './Modal';
 import { categoryService } from '@/api/supabase/services/categoryService';
+import { supabase } from '@/config/supabase';
 
 
 
 const ProductCard = ({ product }) => {
+  const [productData, setProductData] = useState(product);
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const fetchLatestProductData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", product.id)
+        .single();
+
+      if (error) throw error;
+      setProductData(data);
+    } catch (error) {
+      console.error("Ürün verileri çekilemedi:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchCategoryName = async () => {
@@ -40,8 +57,9 @@ const ProductCard = ({ product }) => {
     }
   }, [product.categoryId]);
 
-  const handleProductClick = (e) => {
+  const handleProductClick = async (e) => {
     e.preventDefault();
+    await fetchLatestProductData();
     setShowModal(true);
 
     const viewedProducts = JSON.parse(localStorage.getItem('viewedProducts') || '[]');
@@ -57,6 +75,12 @@ const ProductCard = ({ product }) => {
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setQuantity(1);
+    window.dispatchEvent(new Event('modalClosed'));
+  };
 
   return (
     <>
@@ -101,19 +125,13 @@ const ProductCard = ({ product }) => {
       </div>
 
       <Modal isOpen={showModal}>
-        <div className="swiper-modal" onClick={() => {
-          setShowModal(false);
-          window.dispatchEvent(new Event('modalClosed'));
-        }}>
+        <div className="swiper-modal" onClick={handleCloseModal}>
           <div 
             className="bg-white rounded-2xl md:max-w-[70%] w-[95%] h-[90vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
-              onClick={() => {
-                setShowModal(false);
-                window.dispatchEvent(new Event('modalClosed'));
-              }}
+              onClick={handleCloseModal}
               className="absolute top-4 right-4 z-[9999] bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#064c4f" className="w-6 h-6">
@@ -123,7 +141,8 @@ const ProductCard = ({ product }) => {
             
             <div className="max-w-[80%] mx-auto">
               <ProductDetailComponent
-                product={product}
+                key={showModal ? 'modal-open' : 'modal-closed'}
+                product={productData}
                 quantity={quantity}
                 category={category}
                 increaseQuantity={increaseQuantity}
