@@ -3,6 +3,7 @@ import ProductRating from "./ProductRating";
 import { toast } from "react-toastify";
 import AddCartButton from "@/components/Add-Cart-Button";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const ProductDetailComponent = ({
   product,
@@ -11,6 +12,14 @@ const ProductDetailComponent = ({
   increaseQuantity,
   decreaseQuantity,
 }) => {
+  const [productRating, setProductRating] = useState(product.rating);
+  const [productReviews, setProductReviews] = useState(product.reviews);
+
+  const handleRatingUpdate = (newRating, newReviews) => {
+    setProductRating(newRating);
+    setProductReviews(newReviews);
+  };
+
   return (
     <div className="w-[100%] mx-auto py-5">
       <motion.div
@@ -110,8 +119,10 @@ const ProductDetailComponent = ({
             </div>
             <div className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm">
               <ProductRating
-                rating={product.rating}
-                reviews={product.reviews}
+                productId={product.id}
+                rating={productRating}
+                reviews={productReviews}
+                onRatingUpdate={handleRatingUpdate}
               />
               <span className="text-base text-gray-600"></span>
             </div>
@@ -168,8 +179,10 @@ const ProductDetailComponent = ({
 
               <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-sm">
                 <ProductRating
-                  rating={product.rating}
-                  reviews={product.reviews}
+                  productId={product.id}
+                  rating={productRating}
+                  reviews={productReviews}
+                  onRatingUpdate={handleRatingUpdate}
                 />
               </div>
             </motion.div>
