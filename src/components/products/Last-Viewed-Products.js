@@ -8,11 +8,27 @@ import SkeletonCard from "@/components/common/Skeleton-Card";
 const LastViewedProducts = () => {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
+  const updateViewedProducts = () => {
     const savedProducts = localStorage.getItem('viewedProducts');
     if (savedProducts) {
       setProducts(JSON.parse(savedProducts));
     }
+  };
+
+  useEffect(() => {
+    // İlk yüklemede ürünleri getir
+    updateViewedProducts();
+
+    // Modal kapandığında ürünleri güncelle
+    const handleModalClose = () => {
+      updateViewedProducts();
+    };
+
+    window.addEventListener('modalClosed', handleModalClose);
+
+    return () => {
+      window.removeEventListener('modalClosed', handleModalClose);
+    };
   }, []);
 
   const skeletonCount = Math.max(0, 5 - products.length);
